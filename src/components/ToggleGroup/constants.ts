@@ -1,17 +1,17 @@
 export const COLOURS = {
   incorrect: {
-    gradient: ["#f6b868", "#ee6b2d"],
-    indicator: "#F8CAA3",
-    text: "#9F938B",
+    gradient: ["rgb(246, 184, 104)", "rgb(238, 107, 45)"],
+    indicator: "rgb(248, 202, 163)",
+    text: "rgb(159, 147, 139)",
   },
   partial: {
-    gradient: ["#f1b496", "#ea806a"],
-    indicator: "#F2CBBD",
-    text: "#E47958",
+    gradient: ["rgb(241, 180, 150)", "rgb(234, 128, 106)"],
+    indicator: "rgb(242, 203, 189)",
+    text: "rgb(228, 121, 88)",
   },
   correct: {
-    gradient: ["#76e0c2", "#59cada"],
-    indicator: "#A5E7E2",
-    text: "#4CAD94",
+    gradient: ["rgb(118, 224, 194)", "rgb(89, 202, 218)"],
+    indicator: "rgb(165, 231, 226)",
+    text: "rgb(76, 173, 148)",
   },
 };

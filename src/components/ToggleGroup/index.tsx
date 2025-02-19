@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { shuffleArray } from "../../utils";
+import { lerpColour, shuffleArray } from "../../utils";
 import { COLOURS } from "./constants";
 import { ToggleGroupProvider } from "./context";
 import { Toggle, ToggleOverflowingProvider } from "./Toggle";
@@ -46,15 +46,23 @@ export function ToggleGroup({
   };
 
   const correctAnswers = questions.filter((q) => answers[q.id] === q.correct);
-  const allCorrect = correctAnswers.length === Object.keys(answers).length;
-  const partialCorrect = !allCorrect && correctAnswers.length >= 1;
+  const allCorrect = correctAnswers.length === questions.length;
 
-  let background = `linear-gradient(180deg, ${COLOURS.incorrect.gradient[0]} 0%, ${COLOURS.incorrect.gradient[1]} 100%)`;
-  if (allCorrect) {
-    background = `linear-gradient(180deg, ${COLOURS.correct.gradient[0]} 0%, ${COLOURS.correct.gradient[1]} 100%)`;
-  } else if (partialCorrect) {
-    background = `linear-gradient(180deg, ${COLOURS.partial.gradient[0]} 0%, ${COLOURS.partial.gradient[1]} 100%)`;
-  }
+  const calculateBackground = () => {
+    if (allCorrect)
+      return `linear-gradient(180deg, ${COLOURS.correct.gradient[0]} 0%, ${COLOURS.correct.gradient[1]} 100%)`;
+
+    const percent = correctAnswers.length / questions.length;
+    return `linear-gradient(180deg, ${lerpColour(
+      COLOURS.incorrect.gradient[0],
+      COLOURS.partial.gradient[0],
+      percent
+    )} 0%, ${lerpColour(
+      COLOURS.incorrect.gradient[1],
+      COLOURS.partial.gradient[1],
+      percent
+    )} 100%)`;
+  };
 
   return (
     <ToggleGroupProvider
@@ -63,7 +71,7 @@ export function ToggleGroup({
       questions={questions}
     >
       <div
-        style={{ background: background }}
+        style={{ background: calculateBackground() }}
         className="h-full flex flex-col lg:justify-center px-4 pt-4 bg-linear-to-b"
       >
         <span className="text-white text-[20px]/[1.6] lg:text-[40px]/[1.4] font-bold text-center mb-8 lg:mb-10">

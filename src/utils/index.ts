@@ -18,3 +18,12 @@ export function shuffleArray<T>(array: Array<T>) {
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+export const lerpColour = (color1: string, color2: string, amount: number) => {
+  const c1 = color1.match(/\d+/g)?.map(Number) || [];
+  const c2 = color2.match(/\d+/g)?.map(Number) || [];
+
+  return `rgb(${Math.round(c1[0] + (c2[0] - c1[0]) * amount)}, ${Math.round(
+    c1[1] + (c2[1] - c1[1]) * amount
+  )}, ${Math.round(c1[2] + (c2[2] - c1[2]) * amount)})`;
+};
