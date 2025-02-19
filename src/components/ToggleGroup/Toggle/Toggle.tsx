@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { cn } from "../../../utils/cn";
 import { QuestionType } from "../types";
 import { useToggleOverflowingContext } from "./context";
-import { ToggleGroupIndicator } from "./ToggleGroupIndicator";
+import { ToggleIndicator } from "./ToggleIndicator";
 import { ToggleItem } from "./ToggleItem";
 
 export function Toggle({ question, disabled, value, onChange }: ToggleProps) {
@@ -62,7 +62,7 @@ export function Toggle({ question, disabled, value, onChange }: ToggleProps) {
         />
       ))}
 
-      <ToggleGroupIndicator
+      <ToggleIndicator
         selectedIndex={question.options.findIndex(
           (option) => option.value === value
         )}

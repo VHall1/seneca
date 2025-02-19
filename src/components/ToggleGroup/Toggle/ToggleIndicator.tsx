@@ -1,10 +1,10 @@
 import { cn } from "../../../utils/cn";
 import { useToggleOverflowingContext } from "./context";
 
-export function ToggleGroupIndicator({
+export function ToggleIndicator({
   selectedIndex,
   questionsTotal,
-}: ToggleGroupIndicatorProps) {
+}: ToggleIndicatorProps) {
   const { isOverflowing } = useToggleOverflowingContext();
 
   if (selectedIndex === -1) {
@@ -39,7 +39,7 @@ export function ToggleGroupIndicator({
   );
 }
 
-interface ToggleGroupIndicatorProps {
+interface ToggleIndicatorProps {
   selectedIndex: number;
   questionsTotal: number;
 }
