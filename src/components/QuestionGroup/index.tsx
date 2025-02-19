@@ -1,3 +1,4 @@
+import { clsx } from "clsx";
 import { useState } from "react";
 
 export function QuestionGroup({ title, questions }: QuestionGroupProps) {
@@ -13,26 +14,42 @@ export function QuestionGroup({ title, questions }: QuestionGroupProps) {
   const allCorrect = questions.every((q) => answers[q.id] === q.correct);
 
   return (
-    <div>
-      <span>{title}</span>
-      {questions.map((q) => (
-        <div role="radiogroup" key={q.id}>
-          {q.options.map((option) => (
-            <label key={option.value}>
-              {option.label}
-              <input
-                name={q.id}
-                value={option.value}
-                checked={answers[q.id] === option.value}
-                onChange={() => handleOnChange(q.id, option.value)}
-                disabled={allCorrect}
-                type="radio"
-              />
-            </label>
-          ))}
-        </div>
-      ))}
-      <span>The answer is {allCorrect ? "correct!" : "incorrect"}</span>
+    <div className="flex flex-col px-4 pt-4 bg-red-400">
+      <span className="text-center mb-8 lg:mb-10">{title}</span>
+
+      <div className="flex flex-col gap-6">
+        {questions.map((q) => (
+          <div
+            role="radiogroup"
+            className="max-w-[900px] w-full mx-auto flex outline-1"
+            key={q.id}
+          >
+            {q.options.map((option) => (
+              <label
+                className={clsx("flex-1 text-center", {
+                  "bg-white": answers[q.id] === option.value,
+                })}
+                key={option.value}
+              >
+                {option.label}
+                <input
+                  name={q.id}
+                  value={option.value}
+                  checked={answers[q.id] === option.value}
+                  onChange={() => handleOnChange(q.id, option.value)}
+                  disabled={allCorrect}
+                  type="radio"
+                  className="appearance-none"
+                />
+              </label>
+            ))}
+          </div>
+        ))}
+      </div>
+
+      <span className="text-center mt-8 lg:mt-13">
+        The answer is {allCorrect ? "correct!" : "incorrect"}
+      </span>
     </div>
   );
 }
