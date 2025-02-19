@@ -25,7 +25,7 @@ export function ToggleItem({
       className={cn(
         "overflow-hidden whitespace-nowrap text-white text-center text-[18px]/[1.6] lg:text-[24px]/[1.6] font-bold flex-1 py-2.5 lg:py-5 z-10",
         {
-          "text-gray-500": checked,
+          "text-[#9F938B]": checked,
           "cursor-pointer": !disabled,
         }
       )}
