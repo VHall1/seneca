@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { shuffleArray } from "../../utils";
 import { COLOURS } from "./constants";
 import { ToggleGroupProvider } from "./context";
@@ -11,7 +11,11 @@ export function ToggleGroup({
   shuffleQuestions,
   shuffleAnswers,
 }: ToggleGroupProps) {
-  const [questions] = useState(() => {
+  // Handles the shuffling of questions and answers.
+  // This isn't great, if the parent component re-render for any reason
+  // it will cause this useMemo to kick in and might end up shuffling questions/answers.
+  // Ideally, these would come shuffled from the API, rather than shuffling on the client.
+  const questions = useMemo(() => {
     let questions = [...rawQuestions];
 
     if (shuffleQuestions) {
@@ -26,7 +30,7 @@ export function ToggleGroup({
     }
 
     return questions;
-  });
+  }, [rawQuestions, shuffleAnswers, shuffleQuestions]);
 
   const [answers, setAnswers] = useState<{ [key: string]: string }>(() =>
     questions.reduce(
