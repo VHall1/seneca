@@ -10,7 +10,7 @@ export function ToggleGroupIndicator({
 
   return (
     <div
-      className="absolute bg-white transition-all"
+      className="absolute bg-white transition-all rounded-full"
       style={{
         top: 0,
         height: "100%",
