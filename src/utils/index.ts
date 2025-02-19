@@ -13,7 +13,8 @@ export function shuffleArray<T>(array: Array<T>) {
   return shuffled;
 }
 
-// This was taken from shadcn
+// taken from shadcn, helps fixing tailwind classname conflicts
+// along with handling conditional class selection
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
