@@ -5,9 +5,9 @@ import { useToggleOverflowingContext } from "./context";
 export function ToggleItem({
   name,
   label,
-  checked,
-  disabled,
   value,
+  disabled,
+  checked,
   onChange,
 }: ToggleItemProps) {
   const ref = useRef<HTMLLabelElement>(null);
@@ -48,8 +48,8 @@ export function ToggleItem({
 interface ToggleItemProps {
   name: string;
   label: string;
-  checked: boolean;
-  disabled: boolean;
   value: string;
+  disabled?: boolean;
+  checked: boolean;
   onChange: (value: string) => void;
 }
