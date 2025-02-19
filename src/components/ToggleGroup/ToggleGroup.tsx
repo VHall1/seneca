@@ -4,6 +4,8 @@ import { COLOURS } from "./constants";
 import { ToggleGroupProvider } from "./context";
 import { useCorrectAnswers } from "./hooks/useCorrectAnswers";
 import { Toggle, ToggleOverflowingProvider } from "./Toggle";
+import { ToggleIndicator } from "./Toggle/ToggleIndicator";
+import { ToggleItem } from "./Toggle/ToggleItem";
 import { QuestionType } from "./types";
 
 export function ToggleGroup({
@@ -58,6 +60,17 @@ export function ToggleGroup({
     )} 100%)`;
   };
 
+  const calculateIndicatorColour = () => {
+    if (allCorrect) return COLOURS.correct.indicator;
+
+    const percent = correctAnswers.length / questions.length;
+    return lerpColour(
+      COLOURS.incorrect.indicator,
+      COLOURS.partial.indicator,
+      percent
+    );
+  };
+
   return (
     <ToggleGroupProvider
       answers={answers}
@@ -75,12 +88,30 @@ export function ToggleGroup({
         <div className="flex flex-col gap-6">
           {questions.map((q) => (
             <ToggleOverflowingProvider key={q.id}>
-              <Toggle
-                question={q}
-                disabled={allCorrect}
-                value={answers[q.id]}
-                onChange={(value) => handleOnChange(q.id, value)}
-              />
+              <Toggle>
+                {q.options.map((option) => (
+                  <ToggleItem
+                    name={q.id}
+                    label={option.label}
+                    checked={answers[q.id] === option.value}
+                    disabled={allCorrect}
+                    value={option.value}
+                    onChange={(value) => handleOnChange(q.id, value)}
+                    key={option.value}
+                  />
+                ))}
+
+                <ToggleIndicator
+                  selectedIndex={q.options.findIndex(
+                    (option) => option.value === answers[q.id]
+                  )}
+                  questionsTotal={q.options.length}
+                  className="h-full flex flex-col lg:justify-center px-4 pt-4"
+                  style={{
+                    backgroundColor: calculateIndicatorColour(),
+                  }}
+                />
+              </Toggle>
             </ToggleOverflowingProvider>
           ))}
         </div>

@@ -1,14 +1,8 @@
 import { useEffect, useRef } from "react";
-import { cn, lerpColour } from "../../../utils";
-import { COLOURS } from "../constants";
-import { useToggleGroupContext } from "../context";
-import { useCorrectAnswers } from "../hooks/useCorrectAnswers";
-import { QuestionType } from "../types";
+import { cn } from "../../../utils";
 import { useToggleOverflowingContext } from "./context";
-import { ToggleIndicator } from "./ToggleIndicator";
-import { ToggleItem } from "./ToggleItem";
 
-export function Toggle({ question, disabled, value, onChange }: ToggleProps) {
+export function Toggle({ children, className, ...props }: ToggleProps) {
   const { isOverflowing, setIsOverflowing, options } =
     useToggleOverflowingContext();
   const windowSizeRef = useRef(-1);
@@ -43,19 +37,6 @@ export function Toggle({ question, disabled, value, onChange }: ToggleProps) {
     return () => window.removeEventListener("resize", checkOverflow);
   }, []);
 
-  const { answers, questions } = useToggleGroupContext();
-  const { correctAnswers, allCorrect } = useCorrectAnswers(questions, answers);
-  const calculateIndicatorColour = () => {
-    if (allCorrect) return COLOURS.correct.indicator;
-
-    const percent = correctAnswers.length / questions.length;
-    return lerpColour(
-      COLOURS.incorrect.indicator,
-      COLOURS.partial.indicator,
-      percent
-    );
-  };
-
   return (
     <div
       role="radiogroup"
@@ -63,39 +44,17 @@ export function Toggle({ question, disabled, value, onChange }: ToggleProps) {
         "max-w-[900px] overflow-hidden w-full mx-auto flex outline-2 -outline-offset-2 outline-white rounded-full relative",
         {
           "flex-col rounded-3xl": isOverflowing,
-        }
+        },
+        className
       )}
+      {...props}
     >
-      {question.options.map((option) => (
-        <ToggleItem
-          name={question.id}
-          label={option.label}
-          checked={value === option.value}
-          disabled={disabled}
-          value={option.value}
-          onChange={onChange}
-          key={option.value}
-        />
-      ))}
-
-      <ToggleIndicator
-        selectedIndex={question.options.findIndex(
-          (option) => option.value === value
-        )}
-        questionsTotal={question.options.length}
-        className="h-full flex flex-col lg:justify-center px-4 pt-4"
-        style={{
-          backgroundColor: calculateIndicatorColour(),
-        }}
-      />
+      {children}
     </div>
   );
 }
 
-interface ToggleProps {
-  question: QuestionType;
-  disabled: boolean;
-
-  value: string;
-  onChange: (value: string) => void;
-}
+type ToggleProps = React.DetailedHTMLProps<
+  React.HTMLAttributes<HTMLDivElement>,
+  HTMLDivElement
+>;
