@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { cn } from "../../utils/cn";
+import { cn, shuffleArray } from "../../utils";
 import { BG_GRADIENT } from "./constants";
 import { Toggle, ToggleOverflowingProvider } from "./Toggle";
 import { QuestionType } from "./types";
@@ -11,8 +11,7 @@ export function ToggleGroup({
 }: ToggleGroupProps) {
   const [questions] = useState(() => {
     if (shuffleQuestions) {
-      // TODO: actually shuffle questions
-      return rawQuestions;
+      return shuffleArray(rawQuestions);
     }
 
     return rawQuestions;
@@ -77,6 +76,5 @@ export function ToggleGroup({
 interface ToggleGroupProps {
   title: string;
   questions: QuestionType[];
-
   shuffleQuestions?: boolean;
 }

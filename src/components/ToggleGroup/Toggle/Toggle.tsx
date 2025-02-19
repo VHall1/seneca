@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { cn } from "../../../utils/cn";
+import { cn } from "../../../utils";
 import { QuestionType } from "../types";
 import { useToggleOverflowingContext } from "./context";
 import { ToggleIndicator } from "./ToggleIndicator";

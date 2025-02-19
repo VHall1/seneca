@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { cn } from "../../../utils/cn";
+import { cn } from "../../../utils";
 import { useToggleOverflowingContext } from "./context";
 
 export function ToggleItem({

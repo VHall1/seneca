@@ -2,7 +2,11 @@ import { ToggleGroup } from "./components/ToggleGroup";
 
 export function App() {
   return (
-    <ToggleGroup title="An animal cell contains:" questions={mockQuestions} />
+    <ToggleGroup
+      title="An animal cell contains:"
+      questions={mockQuestions}
+      shuffleQuestions
+    />
   );
 }
 
