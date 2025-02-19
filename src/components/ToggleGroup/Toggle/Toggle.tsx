@@ -1,5 +1,7 @@
 import { useEffect, useRef } from "react";
 import { cn } from "../../../utils";
+import { COLOURS } from "../constants";
+import { useToggleGroupContext } from "../context";
 import { QuestionType } from "../types";
 import { useToggleOverflowingContext } from "./context";
 import { ToggleIndicator } from "./ToggleIndicator";
@@ -9,6 +11,12 @@ export function Toggle({ question, disabled, value, onChange }: ToggleProps) {
   const { isOverflowing, setIsOverflowing, options } =
     useToggleOverflowingContext();
   const windowSizeRef = useRef(-1);
+
+  const { answers, questions } = useToggleGroupContext();
+
+  const correctAnswers = questions.filter((q) => answers[q.id] === q.correct);
+  const allCorrect = correctAnswers.length === Object.keys(answers).length;
+  const partialCorrect = !allCorrect && correctAnswers.length >= 1;
 
   useEffect(() => {
     const checkOverflow = () => {
@@ -67,6 +75,14 @@ export function Toggle({ question, disabled, value, onChange }: ToggleProps) {
           (option) => option.value === value
         )}
         questionsTotal={question.options.length}
+        className="h-full flex flex-col lg:justify-center px-4 pt-4"
+        style={{
+          backgroundColor: allCorrect
+            ? COLOURS.correct.indicator
+            : partialCorrect
+            ? COLOURS.partial.indicator
+            : COLOURS.incorrect.indicator,
+        }}
       />
     </div>
   );

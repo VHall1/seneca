@@ -2,8 +2,11 @@ import { cn } from "../../../utils";
 import { useToggleOverflowingContext } from "./context";
 
 export function ToggleIndicator({
+  style,
+  className,
   selectedIndex,
   questionsTotal,
+  ...props
 }: ToggleIndicatorProps) {
   const { isOverflowing } = useToggleOverflowingContext();
 
@@ -12,16 +15,16 @@ export function ToggleIndicator({
   }
 
   const indicatorSize = 100 / questionsTotal;
-  let style: React.CSSProperties = {};
+  let overflowingStyle: React.CSSProperties = {};
   if (isOverflowing) {
-    style = {
+    overflowingStyle = {
       left: 0,
       width: "100%",
       height: `${indicatorSize}%`,
       top: `${selectedIndex * indicatorSize}%`,
     };
   } else {
-    style = {
+    overflowingStyle = {
       top: 0,
       height: "100%",
       width: `${indicatorSize}%`,
@@ -31,15 +34,27 @@ export function ToggleIndicator({
 
   return (
     <div
-      className={cn("absolute bg-white transition-all", {
-        "rounded-full": !isOverflowing,
-      })}
-      style={style}
+      className={cn(
+        "absolute bg-white transition-all",
+        {
+          "rounded-full": !isOverflowing,
+        },
+        className
+      )}
+      style={{ ...overflowingStyle, ...style }}
+      {...props}
     />
   );
 }
 
-interface ToggleIndicatorProps {
+interface ToggleIndicatorProps
+  extends Omit<
+    React.DetailedHTMLProps<
+      React.HTMLAttributes<HTMLDivElement>,
+      HTMLDivElement
+    >,
+    "children"
+  > {
   selectedIndex: number;
   questionsTotal: number;
 }

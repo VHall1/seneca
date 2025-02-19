@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { cn, shuffleArray } from "../../utils";
-import { BG_GRADIENT } from "./constants";
+import { COLOURS } from "./constants";
+import { ToggleGroupProvider } from "./context";
 import { Toggle, ToggleOverflowingProvider } from "./Toggle";
 import { QuestionType } from "./types";
 
@@ -46,40 +47,46 @@ export function ToggleGroup({
   const partialCorrect = !allCorrect && correctAnswers.length >= 1;
 
   return (
-    <div
-      className={cn(
-        "h-full flex flex-col lg:justify-center px-4 pt-4 bg-linear-to-b",
-        {
-          [`from-[${BG_GRADIENT.incorrect[0]}] to-[${BG_GRADIENT.incorrect[1]}]`]:
-            true,
-          [`from-[${BG_GRADIENT.partial[0]}] to-[${BG_GRADIENT.partial[1]}]`]:
-            partialCorrect,
-          [`from-[${BG_GRADIENT.correct[0]}] to-[${BG_GRADIENT.correct[1]}]`]:
-            allCorrect,
-        }
-      )}
+    <ToggleGroupProvider
+      answers={answers}
+      setAnswers={setAnswers}
+      questions={questions}
     >
-      <span className="text-white text-[20px]/[1.6] lg:text-[40px]/[1.4] font-bold text-center mb-8 lg:mb-10">
-        {title}
-      </span>
+      <div
+        className={cn(
+          "h-full flex flex-col lg:justify-center px-4 pt-4 bg-linear-to-b",
+          {
+            [`from-[${COLOURS.incorrect.gradient[0]}] to-[${COLOURS.incorrect.gradient[1]}]`]:
+              true,
+            [`from-[${COLOURS.partial.gradient[0]}] to-[${COLOURS.partial.gradient[1]}]`]:
+              partialCorrect,
+            [`from-[${COLOURS.correct.gradient[0]}] to-[${COLOURS.correct.gradient[1]}]`]:
+              allCorrect,
+          }
+        )}
+      >
+        <span className="text-white text-[20px]/[1.6] lg:text-[40px]/[1.4] font-bold text-center mb-8 lg:mb-10">
+          {title}
+        </span>
 
-      <div className="flex flex-col gap-6">
-        {questions.map((q) => (
-          <ToggleOverflowingProvider key={q.id}>
-            <Toggle
-              question={q}
-              disabled={allCorrect}
-              value={answers[q.id]}
-              onChange={(value) => handleOnChange(q.id, value)}
-            />
-          </ToggleOverflowingProvider>
-        ))}
+        <div className="flex flex-col gap-6">
+          {questions.map((q) => (
+            <ToggleOverflowingProvider key={q.id}>
+              <Toggle
+                question={q}
+                disabled={allCorrect}
+                value={answers[q.id]}
+                onChange={(value) => handleOnChange(q.id, value)}
+              />
+            </ToggleOverflowingProvider>
+          ))}
+        </div>
+
+        <span className="text-white text-[16px]/[1.6] lg:text-[32px]/[1.4] font-bold text-center mt-8 lg:mt-13">
+          The answer is {allCorrect ? "correct!" : "incorrect"}
+        </span>
       </div>
-
-      <span className="text-white text-[16px]/[1.6] lg:text-[32px]/[1.4] font-bold text-center mt-8 lg:mt-13">
-        The answer is {allCorrect ? "correct!" : "incorrect"}
-      </span>
-    </div>
+    </ToggleGroupProvider>
   );
 }
 
