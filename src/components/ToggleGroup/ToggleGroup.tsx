@@ -68,6 +68,15 @@ export function ToggleGroup({
     );
   };
 
+  const calculateTextColour = (checked: boolean) => {
+    if (!checked) return;
+
+    if (allCorrect) return COLOURS.correct.text;
+
+    const percent = correctAnswers.length / questions.length;
+    return lerpColour(COLOURS.incorrect.text, COLOURS.partial.text, percent);
+  };
+
   return (
     <div
       style={{ background: calculateBackground() }}
@@ -88,10 +97,14 @@ export function ToggleGroup({
           >
             {q.options.map((option) => (
               <ToggleItem
-                label={option.label}
                 value={option.value}
                 key={option.value}
-              />
+                style={{
+                  color: calculateTextColour(answers[q.id] === option.value),
+                }}
+              >
+                {option.label}
+              </ToggleItem>
             ))}
 
             <ToggleIndicator
