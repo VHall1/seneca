@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import useEvent from "@testing-library/user-event";
+import userEvent from "@testing-library/user-event";
 import { useState } from "react";
 import { Toggle } from "../Toggle";
 import { ToggleItem } from "../ToggleItem";
@@ -20,7 +20,7 @@ describe("<Toggle />", () => {
     render(<MockToggle />);
 
     const notChecked = screen.getByRole("radio", { checked: false });
-    await useEvent.click(notChecked);
+    await userEvent.click(notChecked);
 
     expect(notChecked).toBeChecked();
   });
@@ -29,7 +29,7 @@ describe("<Toggle />", () => {
     render(<ControlledMockToggle />);
 
     const notChecked = screen.getByRole("radio", { checked: false });
-    await useEvent.click(notChecked);
+    await userEvent.click(notChecked);
 
     expect(notChecked).toBeChecked();
   });
@@ -39,7 +39,7 @@ describe("<Toggle />", () => {
 
     const checked = screen.getByRole("radio", { checked: true });
     const notChecked = screen.getByRole("radio", { checked: false });
-    await useEvent.click(notChecked);
+    await userEvent.click(notChecked);
 
     expect(checked).not.toBeChecked();
     expect(notChecked).toBeChecked();
