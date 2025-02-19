@@ -11,11 +11,12 @@ export function useCalculateColours(
   questions: number
 ) {
   const memoised = useMemo(() => {
+    const percent = correctAnswers / questions;
+
     const calculateBackground = () => {
       if (allCorrect)
         return `linear-gradient(180deg, ${COLOURS.correct.gradient[0]} 0%, ${COLOURS.correct.gradient[1]} 100%)`;
 
-      const percent = correctAnswers / questions;
       return `linear-gradient(180deg, ${lerpColour(
         COLOURS.incorrect.gradient[0],
         COLOURS.partial.gradient[0],
@@ -30,7 +31,6 @@ export function useCalculateColours(
     const calculateIndicatorColour = () => {
       if (allCorrect) return COLOURS.correct.indicator;
 
-      const percent = correctAnswers / questions;
       return lerpColour(
         COLOURS.incorrect.indicator,
         COLOURS.partial.indicator,
@@ -41,7 +41,6 @@ export function useCalculateColours(
     const calculateTextColour = () => {
       if (allCorrect) return COLOURS.correct.text;
 
-      const percent = correctAnswers / questions;
       return lerpColour(COLOURS.incorrect.text, COLOURS.partial.text, percent);
     };
 
