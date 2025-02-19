@@ -3,7 +3,7 @@ import { lerpColour, shuffleArray } from "../../utils";
 import { COLOURS } from "./constants";
 import { ToggleGroupProvider } from "./context";
 import { useCorrectAnswers } from "./hooks/useCorrectAnswers";
-import { Toggle, ToggleOverflowingProvider } from "./Toggle";
+import { Toggle } from "./Toggle";
 import { ToggleIndicator } from "./Toggle/ToggleIndicator";
 import { ToggleItem } from "./Toggle/ToggleItem";
 import { QuestionType } from "./types";
@@ -87,32 +87,30 @@ export function ToggleGroup({
 
         <div className="flex flex-col gap-6">
           {questions.map((q) => (
-            <ToggleOverflowingProvider key={q.id}>
-              <Toggle>
-                {q.options.map((option) => (
-                  <ToggleItem
-                    name={q.id}
-                    label={option.label}
-                    checked={answers[q.id] === option.value}
-                    disabled={allCorrect}
-                    value={option.value}
-                    onChange={(value) => handleOnChange(q.id, value)}
-                    key={option.value}
-                  />
-                ))}
-
-                <ToggleIndicator
-                  selectedIndex={q.options.findIndex(
-                    (option) => option.value === answers[q.id]
-                  )}
-                  questionsTotal={q.options.length}
-                  className="h-full flex flex-col lg:justify-center px-4 pt-4"
-                  style={{
-                    backgroundColor: calculateIndicatorColour(),
-                  }}
+            <Toggle key={q.id}>
+              {q.options.map((option) => (
+                <ToggleItem
+                  name={q.id}
+                  label={option.label}
+                  checked={answers[q.id] === option.value}
+                  disabled={allCorrect}
+                  value={option.value}
+                  onChange={(value) => handleOnChange(q.id, value)}
+                  key={option.value}
                 />
-              </Toggle>
-            </ToggleOverflowingProvider>
+              ))}
+
+              <ToggleIndicator
+                selectedIndex={q.options.findIndex(
+                  (option) => option.value === answers[q.id]
+                )}
+                questionsTotal={q.options.length}
+                className="h-full flex flex-col lg:justify-center px-4 pt-4"
+                style={{
+                  backgroundColor: calculateIndicatorColour(),
+                }}
+              />
+            </Toggle>
           ))}
         </div>
 

@@ -1,10 +1,9 @@
-import { createContext, useContext, useRef, useState } from "react";
+import { createContext, useContext } from "react";
 
 type OptionsSet = Set<React.RefObject<HTMLLabelElement | null>>;
 
 interface ToggleOverflowingContextValue {
   isOverflowing: boolean;
-  setIsOverflowing: (value: boolean) => void;
   options: OptionsSet;
 }
 
@@ -12,18 +11,18 @@ const ToggleOverflowingContext = createContext<
   ToggleOverflowingContextValue | undefined
 >(undefined);
 
+interface ToggleOverflowingProvider {
+  children: React.ReactNode;
+  isOverflowing: ToggleOverflowingContextValue["isOverflowing"];
+  options: ToggleOverflowingContextValue["options"];
+}
+
 export function ToggleOverflowingProvider({
   children,
-}: {
-  children: React.ReactNode;
-}) {
-  const [isOverflowing, setIsOverflowing] = useState(false);
-  const options = useRef<OptionsSet>(new Set()).current;
-
+  ...value
+}: ToggleOverflowingProvider) {
   return (
-    <ToggleOverflowingContext
-      value={{ isOverflowing, setIsOverflowing, options }}
-    >
+    <ToggleOverflowingContext value={value}>
       {children}
     </ToggleOverflowingContext>
   );

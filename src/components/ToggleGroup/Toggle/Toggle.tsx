@@ -1,10 +1,11 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "../../../utils";
-import { useToggleOverflowingContext } from "./context";
+import { ToggleOverflowingProvider } from "./context";
+import { OptionsSet } from "./types";
 
 export function Toggle({ children, className, ...props }: ToggleProps) {
-  const { isOverflowing, setIsOverflowing, options } =
-    useToggleOverflowingContext();
+  const [isOverflowing, setIsOverflowing] = useState(false);
+  const options = useRef<OptionsSet>(new Set()).current;
   const windowSizeRef = useRef(-1);
 
   useEffect(() => {
@@ -38,19 +39,21 @@ export function Toggle({ children, className, ...props }: ToggleProps) {
   }, []);
 
   return (
-    <div
-      role="radiogroup"
-      className={cn(
-        "max-w-[900px] overflow-hidden w-full mx-auto flex outline-2 -outline-offset-2 outline-white rounded-full relative",
-        {
-          "flex-col rounded-3xl": isOverflowing,
-        },
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </div>
+    <ToggleOverflowingProvider isOverflowing={isOverflowing} options={options}>
+      <div
+        role="radiogroup"
+        className={cn(
+          "max-w-[900px] overflow-hidden w-full mx-auto flex outline-2 -outline-offset-2 outline-white rounded-full relative",
+          {
+            "flex-col rounded-3xl": isOverflowing,
+          },
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </div>
+    </ToggleOverflowingProvider>
   );
 }
 
