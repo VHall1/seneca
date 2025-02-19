@@ -32,6 +32,7 @@ export function QuestionGroup({ title, questions }: QuestionGroupProps) {
           ))}
         </div>
       ))}
+      <span>The answer is {allCorrect ? "correct!" : "incorrect"}</span>
     </div>
   );
 }
