@@ -10,6 +10,8 @@ export function QuestionGroup({ title, questions }: QuestionGroupProps) {
     }));
   };
 
+  const allCorrect = questions.every((q) => answers[q.id] === q.correct);
+
   return (
     <div>
       <span>{title}</span>
@@ -23,6 +25,7 @@ export function QuestionGroup({ title, questions }: QuestionGroupProps) {
                 value={option.value}
                 checked={answers[q.id] === option.value}
                 onChange={() => handleOnChange(q.id, option.value)}
+                disabled={allCorrect}
                 type="radio"
               />
             </label>
