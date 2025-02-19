@@ -11,32 +11,31 @@ export function ToggleGroup({
   shuffleQuestions,
   shuffleAnswers,
 }: ToggleGroupProps) {
-  // Handles the shuffling of questions and answers.
-  // This isn't great, if the parent component re-render for any reason
-  // it will cause this useMemo to kick in and might end up shuffling questions/answers.
+  // Handles the shuffling of questions.
+  // If the parent component re-renders for any reason it will cause this useMemo to
+  // kick in and might end up re-shuffling questions.
   // Ideally, these would come shuffled from the API, rather than shuffling on the client.
   const questions = useMemo(() => {
-    let questions = [...rawQuestions];
-
     if (shuffleQuestions) {
-      questions = shuffleArray(rawQuestions);
+      return shuffleArray(rawQuestions);
     }
 
-    if (shuffleAnswers) {
-      questions = questions.map((q) => ({
-        ...q,
-        options: shuffleArray(q.options),
-      }));
-    }
-
-    return questions;
-  }, [rawQuestions, shuffleAnswers, shuffleQuestions]);
+    return rawQuestions;
+  }, [rawQuestions, shuffleQuestions]);
 
   const [answers, setAnswers] = useState<{ [key: string]: string }>(() =>
-    questions.reduce(
-      (accum, q) => ({ ...accum, [q.id]: q.options[0].value }),
-      {}
-    )
+    questions.reduce((accum, question) => {
+      if (shuffleAnswers) {
+        // avoid picking the correct answer when shuffling, otherwise
+        // might have cases where the correct answers are already selected
+        const first = shuffleArray(
+          question.options.filter((option) => option.value !== question.correct)
+        )[0];
+        return { ...accum, [question.id]: first.value };
+      }
+
+      return { ...accum, [question.id]: question.options[0].value };
+    }, {})
   );
 
   const handleOnChange = (questionId: string, value: string) => {
