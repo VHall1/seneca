@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Toggle } from "./Toggle";
+import { Toggle, ToggleOverflowingProvider } from "./Toggle";
 import { QuestionType } from "./types";
 
 export function ToggleGroup({ title, questions }: ToggleGroupProps) {
@@ -22,13 +22,14 @@ export function ToggleGroup({ title, questions }: ToggleGroupProps) {
 
       <div className="flex flex-col gap-6">
         {questions.map((q) => (
-          <Toggle
-            question={q}
-            disabled={allCorrect}
-            value={answers[q.id]}
-            onChange={(value) => handleOnChange(q.id, value)}
-            key={q.id}
-          />
+          <ToggleOverflowingProvider key={q.id}>
+            <Toggle
+              question={q}
+              disabled={allCorrect}
+              value={answers[q.id]}
+              onChange={(value) => handleOnChange(q.id, value)}
+            />
+          </ToggleOverflowingProvider>
         ))}
       </div>
 
