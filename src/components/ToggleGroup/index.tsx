@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { cn, shuffleArray } from "../../utils";
+import { shuffleArray } from "../../utils";
 import { COLOURS } from "./constants";
 import { ToggleGroupProvider } from "./context";
 import { Toggle, ToggleOverflowingProvider } from "./Toggle";
@@ -46,6 +46,13 @@ export function ToggleGroup({
   const allCorrect = correctAnswers.length === Object.keys(answers).length;
   const partialCorrect = !allCorrect && correctAnswers.length >= 1;
 
+  let background = `linear-gradient(180deg, ${COLOURS.incorrect.gradient[0]} 0%, ${COLOURS.incorrect.gradient[1]} 100%)`;
+  if (allCorrect) {
+    background = `linear-gradient(180deg, ${COLOURS.correct.gradient[0]} 0%, ${COLOURS.correct.gradient[1]} 100%)`;
+  } else if (partialCorrect) {
+    background = `linear-gradient(180deg, ${COLOURS.partial.gradient[0]} 0%, ${COLOURS.partial.gradient[1]} 100%)`;
+  }
+
   return (
     <ToggleGroupProvider
       answers={answers}
@@ -53,17 +60,8 @@ export function ToggleGroup({
       questions={questions}
     >
       <div
-        className={cn(
-          "h-full flex flex-col lg:justify-center px-4 pt-4 bg-linear-to-b",
-          {
-            [`from-[${COLOURS.incorrect.gradient[0]}] to-[${COLOURS.incorrect.gradient[1]}]`]:
-              true,
-            [`from-[${COLOURS.partial.gradient[0]}] to-[${COLOURS.partial.gradient[1]}]`]:
-              partialCorrect,
-            [`from-[${COLOURS.correct.gradient[0]}] to-[${COLOURS.correct.gradient[1]}]`]:
-              allCorrect,
-          }
-        )}
+        style={{ background: background }}
+        className="h-full flex flex-col lg:justify-center px-4 pt-4 bg-linear-to-b"
       >
         <span className="text-white text-[20px]/[1.6] lg:text-[40px]/[1.4] font-bold text-center mb-8 lg:mb-10">
           {title}
