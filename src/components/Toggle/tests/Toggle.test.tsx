@@ -49,7 +49,9 @@ describe("<Toggle />", () => {
     render(
       <Toggle defaultValue="hot">
         {mockOptions.map((opt) => (
-          <ToggleItem label={opt.label} value={opt.value} key={opt.value} />
+          <ToggleItem value={opt.value} key={opt.value}>
+            {opt.label}
+          </ToggleItem>
         ))}
       </Toggle>
     );
@@ -76,7 +78,9 @@ function MockToggle() {
   return (
     <Toggle defaultValue="hot">
       {mockOptions.map((opt) => (
-        <ToggleItem label={opt.label} value={opt.value} key={opt.value} />
+        <ToggleItem value={opt.value} key={opt.value}>
+          {opt.label}
+        </ToggleItem>
       ))}
     </Toggle>
   );
@@ -88,7 +92,9 @@ function ControlledMockToggle() {
   return (
     <Toggle value={value} onChange={setValue}>
       {mockOptions.map((opt) => (
-        <ToggleItem label={opt.label} value={opt.value} key={opt.value} />
+        <ToggleItem value={opt.value} key={opt.value}>
+          {opt.label}
+        </ToggleItem>
       ))}
     </Toggle>
   );
