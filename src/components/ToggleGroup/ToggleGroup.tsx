@@ -2,9 +2,9 @@ import { useMemo, useState } from "react";
 import { lerpColour, shuffleArray } from "../../utils";
 import { COLOURS } from "./constants";
 import { useCorrectAnswers } from "./hooks/useCorrectAnswers";
-import { Toggle } from "./Toggle";
-import { ToggleIndicator } from "./Toggle/ToggleIndicator";
-import { ToggleItem } from "./Toggle/ToggleItem";
+import { Toggle } from "../Toggle";
+import { ToggleIndicator } from "../Toggle/ToggleIndicator";
+import { ToggleItem } from "../Toggle/ToggleItem";
 import { QuestionType } from "./types";
 
 export function ToggleGroup({

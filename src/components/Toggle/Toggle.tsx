@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { cn } from "../../../utils";
+import { cn } from "../../utils";
 import { ToggleOverflowingProvider } from "./context";
 import { OptionsSet } from "./types";
 
