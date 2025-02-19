@@ -81,15 +81,17 @@ export function ToggleGroup({
 
       <div className="flex flex-col gap-6">
         {questions.map((q) => (
-          <Toggle key={q.id}>
+          <Toggle
+            value={answers[q.id]}
+            onChange={(value) => handleOnChange(q.id, value)}
+            disabled={allCorrect}
+            key={q.id}
+          >
             {q.options.map((option) => (
               <ToggleItem
                 name={q.id}
                 label={option.label}
-                checked={answers[q.id] === option.value}
-                disabled={allCorrect}
                 value={option.value}
-                onChange={(value) => handleOnChange(q.id, value)}
                 key={option.value}
               />
             ))}

@@ -3,7 +3,23 @@ import { cn } from "../../utils";
 import { ToggleProvider } from "./context";
 import { OptionsSet } from "./types";
 
-export function Toggle({ children, className, ...props }: ToggleProps) {
+export function Toggle({
+  children,
+  className,
+  disabled,
+  defaultValue,
+  value: propValue,
+  onChange: propOnChange,
+  ...props
+}: ToggleProps) {
+  const [internalValue, internalSetValue] = useState<string>(
+    defaultValue ?? ""
+  );
+  const value = propValue ?? internalValue;
+  const onChange = propOnChange ?? internalSetValue;
+
+  // these are used to determine if the text is overflowing or not,
+  // which is used to switch between horizontal and vertical mode.
   const [isOverflowing, setIsOverflowing] = useState(false);
   const options = useRef<OptionsSet>(new Set()).current;
   const windowSizeRef = useRef(-1);
@@ -39,7 +55,13 @@ export function Toggle({ children, className, ...props }: ToggleProps) {
   }, []);
 
   return (
-    <ToggleProvider isOverflowing={isOverflowing} options={options}>
+    <ToggleProvider
+      disabled={disabled ?? false}
+      value={value}
+      onChange={onChange}
+      isOverflowing={isOverflowing}
+      options={options}
+    >
       <div
         role="radiogroup"
         className={cn(
@@ -57,7 +79,16 @@ export function Toggle({ children, className, ...props }: ToggleProps) {
   );
 }
 
-type ToggleProps = React.DetailedHTMLProps<
-  React.HTMLAttributes<HTMLDivElement>,
-  HTMLDivElement
->;
+interface ToggleProps
+  extends Omit<
+    React.DetailedHTMLProps<
+      React.HTMLAttributes<HTMLDivElement>,
+      HTMLDivElement
+    >,
+    "onChange"
+  > {
+  disabled?: boolean;
+  defaultValue?: string;
+  value: string;
+  onChange: (value: string) => void;
+}

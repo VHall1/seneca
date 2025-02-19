@@ -2,16 +2,17 @@ import { useEffect, useRef } from "react";
 import { cn } from "../../utils";
 import { useToggleContext } from "./context";
 
-export function ToggleItem({
-  name,
-  label,
-  value,
-  disabled,
-  checked,
-  onChange,
-}: ToggleItemProps) {
+export function ToggleItem({ name, label, value }: ToggleItemProps) {
+  const {
+    options,
+    disabled,
+    value: checkedValue,
+    onChange,
+  } = useToggleContext();
+
+  const checked = value === checkedValue;
+
   const ref = useRef<HTMLLabelElement>(null);
-  const { options } = useToggleContext();
 
   useEffect(() => {
     options.add(ref);
@@ -49,7 +50,4 @@ interface ToggleItemProps {
   name: string;
   label: string;
   value: string;
-  disabled?: boolean;
-  checked: boolean;
-  onChange: (value: string) => void;
 }
