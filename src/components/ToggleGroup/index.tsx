@@ -20,7 +20,7 @@ export function ToggleGroup({ title, questions }: ToggleGroupProps) {
   const allCorrect = questions.every((q) => answers[q.id] === q.correct);
 
   return (
-    <div className="h-full flex flex-col px-4 pt-4 bg-red-400">
+    <div className="h-full flex flex-col lg:justify-center px-4 pt-4 bg-red-400">
       <span className="text-white text-[20px]/[1.6] lg:text-[40px]/[1.4] font-bold text-center mb-8 lg:mb-10">
         {title}
       </span>
