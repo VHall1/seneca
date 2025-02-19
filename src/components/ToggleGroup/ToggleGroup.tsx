@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
-import { lerpColour, shuffleArray } from "../../utils";
+import { shuffleArray } from "../../utils";
 import { Toggle, ToggleIndicator, ToggleItem } from "../Toggle";
-import { COLOURS } from "./constants";
+import { useCalculateColours } from "./hooks/useCalculateColours";
 import { useCorrectAnswers } from "./hooks/useCorrectAnswers";
 import { QuestionType } from "./types";
 
@@ -41,45 +41,12 @@ export function ToggleGroup({
 
   const { correctAnswers, allCorrect } = useCorrectAnswers(questions, answers);
 
-  const calculateBackground = () => {
-    if (allCorrect)
-      return `linear-gradient(180deg, ${COLOURS.correct.gradient[0]} 0%, ${COLOURS.correct.gradient[1]} 100%)`;
-
-    const percent = correctAnswers.length / questions.length;
-    return `linear-gradient(180deg, ${lerpColour(
-      COLOURS.incorrect.gradient[0],
-      COLOURS.partial.gradient[0],
-      percent
-    )} 0%, ${lerpColour(
-      COLOURS.incorrect.gradient[1],
-      COLOURS.partial.gradient[1],
-      percent
-    )} 100%)`;
-  };
-
-  const calculateIndicatorColour = () => {
-    if (allCorrect) return COLOURS.correct.indicator;
-
-    const percent = correctAnswers.length / questions.length;
-    return lerpColour(
-      COLOURS.incorrect.indicator,
-      COLOURS.partial.indicator,
-      percent
-    );
-  };
-
-  const calculateTextColour = (checked: boolean) => {
-    if (!checked) return;
-
-    if (allCorrect) return COLOURS.correct.text;
-
-    const percent = correctAnswers.length / questions.length;
-    return lerpColour(COLOURS.incorrect.text, COLOURS.partial.text, percent);
-  };
+  const { backgroundGradient, indicatorColour, textColour } =
+    useCalculateColours(allCorrect, correctAnswers.length, questions.length);
 
   return (
     <div
-      style={{ background: calculateBackground() }}
+      style={{ background: backgroundGradient }}
       className="h-full flex flex-col lg:justify-center px-4 pt-4"
     >
       <span className="text-white text-[20px]/[1.6] lg:text-[40px]/[1.4] font-bold text-center mb-8 lg:mb-10">
@@ -100,7 +67,8 @@ export function ToggleGroup({
                 value={option.value}
                 key={option.value}
                 style={{
-                  color: calculateTextColour(answers[q.id] === option.value),
+                  color:
+                    answers[q.id] === option.value ? textColour : undefined,
                 }}
               >
                 {option.label}
@@ -114,7 +82,7 @@ export function ToggleGroup({
               questionsTotal={q.options.length}
               className="h-full flex flex-col lg:justify-center px-4 pt-4"
               style={{
-                backgroundColor: calculateIndicatorColour(),
+                backgroundColor: indicatorColour,
               }}
             />
           </Toggle>
