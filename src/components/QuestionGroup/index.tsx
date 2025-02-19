@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { QuestionGroupIndicator } from "./QuestionGroupIndicator";
 
 export function QuestionGroup({ title, questions }: QuestionGroupProps) {
   const [answers, setAnswers] = useState<{ [key: string]: string }>({});
@@ -38,17 +39,11 @@ export function QuestionGroup({ title, questions }: QuestionGroupProps) {
               </label>
             ))}
 
-            <div
-              className="absolute bg-white transition-all"
-              style={{
-                top: 0,
-                height: "100%",
-                width: `${100 / q.options.length}%`,
-                left: `${
-                  q.options.findIndex(({ value }) => value === answers[q.id]) *
-                  (100 / q.options.length)
-                }%`,
-              }}
+            <QuestionGroupIndicator
+              selectedIndex={q.options.findIndex(
+                ({ value }) => value === answers[q.id]
+              )}
+              questionsTotal={q.options.length}
             />
           </div>
         ))}
