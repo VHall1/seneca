@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { cn } from "../../utils";
-import { useToggleOverflowingContext } from "./context";
+import { useToggleContext } from "./context";
 
 export function ToggleItem({
   name,
@@ -11,7 +11,7 @@ export function ToggleItem({
   onChange,
 }: ToggleItemProps) {
   const ref = useRef<HTMLLabelElement>(null);
-  const { options } = useToggleOverflowingContext();
+  const { options } = useToggleContext();
 
   useEffect(() => {
     options.add(ref);

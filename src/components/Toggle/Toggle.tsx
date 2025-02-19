@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { cn } from "../../utils";
-import { ToggleOverflowingProvider } from "./context";
+import { ToggleProvider } from "./context";
 import { OptionsSet } from "./types";
 
 export function Toggle({ children, className, ...props }: ToggleProps) {
@@ -39,7 +39,7 @@ export function Toggle({ children, className, ...props }: ToggleProps) {
   }, []);
 
   return (
-    <ToggleOverflowingProvider isOverflowing={isOverflowing} options={options}>
+    <ToggleProvider isOverflowing={isOverflowing} options={options}>
       <div
         role="radiogroup"
         className={cn(
@@ -53,7 +53,7 @@ export function Toggle({ children, className, ...props }: ToggleProps) {
       >
         {children}
       </div>
-    </ToggleOverflowingProvider>
+    </ToggleProvider>
   );
 }
 

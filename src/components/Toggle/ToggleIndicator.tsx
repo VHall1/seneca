@@ -1,5 +1,5 @@
 import { cn } from "../../utils";
-import { useToggleOverflowingContext } from "./context";
+import { useToggleContext } from "./context";
 
 export function ToggleIndicator({
   style,
@@ -8,7 +8,7 @@ export function ToggleIndicator({
   questionsTotal,
   ...props
 }: ToggleIndicatorProps) {
-  const { isOverflowing } = useToggleOverflowingContext();
+  const { isOverflowing } = useToggleContext();
 
   if (selectedIndex === -1) {
     return null;

@@ -2,39 +2,28 @@ import { createContext, useContext } from "react";
 
 type OptionsSet = Set<React.RefObject<HTMLLabelElement | null>>;
 
-interface ToggleOverflowingContextValue {
+interface ToggleContextValue {
   isOverflowing: boolean;
   options: OptionsSet;
 }
 
-const ToggleOverflowingContext = createContext<
-  ToggleOverflowingContextValue | undefined
->(undefined);
+const ToggleContext = createContext<ToggleContextValue | undefined>(undefined);
 
-interface ToggleOverflowingProvider {
+interface ToggleProvider {
   children: React.ReactNode;
-  isOverflowing: ToggleOverflowingContextValue["isOverflowing"];
-  options: ToggleOverflowingContextValue["options"];
+  isOverflowing: ToggleContextValue["isOverflowing"];
+  options: ToggleContextValue["options"];
 }
 
-export function ToggleOverflowingProvider({
-  children,
-  ...value
-}: ToggleOverflowingProvider) {
-  return (
-    <ToggleOverflowingContext value={value}>
-      {children}
-    </ToggleOverflowingContext>
-  );
+export function ToggleProvider({ children, ...value }: ToggleProvider) {
+  return <ToggleContext value={value}>{children}</ToggleContext>;
 }
 
-export function useToggleOverflowingContext() {
-  const ctx = useContext(ToggleOverflowingContext);
+export function useToggleContext() {
+  const ctx = useContext(ToggleContext);
 
   if (!ctx) {
-    throw new Error(
-      "useToggleOverflowingContext hook must be wrapped by ToggleOverflowingProvider"
-    );
+    throw new Error("useToggleContext hook must be wrapped by ToggleProvider");
   }
 
   return ctx;
