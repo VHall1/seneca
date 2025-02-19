@@ -11,37 +11,14 @@ export function ToggleItem({
   onChange,
 }: ToggleItemProps) {
   const ref = useRef<HTMLLabelElement>(null);
-
-  const { setIsOverflowing } = useToggleOverflowingContext();
-  const windowSizeRef = useRef(-1);
+  const { options } = useToggleOverflowingContext();
 
   useEffect(() => {
-    const checkOverflow = () => {
-      if (!ref.current) return false;
-
-      const windowWidth = window.innerWidth;
-      const overflowing = ref.current.scrollWidth > ref.current.clientWidth;
-
-      // store the largest screen size that overflows to avoid flickering
-      // on smaller screen sizes
-      if (overflowing && windowWidth > windowSizeRef.current) {
-        windowSizeRef.current = windowWidth;
-        setIsOverflowing(overflowing);
-        return;
-      }
-      // if we happento go back to a larger screen size, reset the "lock"
-      // and update overflowing state
-      if (windowWidth > windowSizeRef.current) {
-        windowSizeRef.current = -1;
-        setIsOverflowing(overflowing);
-      }
+    options.add(ref);
+    return () => {
+      options.delete(ref);
     };
-
-    checkOverflow();
-
-    window.addEventListener("resize", checkOverflow);
-    return () => window.removeEventListener("resize", checkOverflow);
-  }, []);
+  });
 
   return (
     <label
