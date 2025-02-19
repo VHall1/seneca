@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ToggleGroupIndicator } from "./ToggleGroupIndicator";
+import { Toggle } from "./Toggle";
 import { QuestionType } from "./types";
 
 export function ToggleGroup({ title, questions }: ToggleGroupProps) {
@@ -20,33 +20,13 @@ export function ToggleGroup({ title, questions }: ToggleGroupProps) {
 
       <div className="flex flex-col gap-6">
         {questions.map((q) => (
-          <div
-            role="radiogroup"
-            className="max-w-[900px] w-full mx-auto flex outline-1 relative"
+          <Toggle
+            question={q}
+            disabled={allCorrect}
+            value={answers[q.id]}
+            onChange={(value) => handleOnChange(q.id, value)}
             key={q.id}
-          >
-            {q.options.map((option) => (
-              <label className="flex-1 text-center z-10" key={option.value}>
-                {option.label}
-                <input
-                  name={q.id}
-                  value={option.value}
-                  checked={answers[q.id] === option.value}
-                  onChange={() => handleOnChange(q.id, option.value)}
-                  disabled={allCorrect}
-                  type="radio"
-                  className="appearance-none"
-                />
-              </label>
-            ))}
-
-            <ToggleGroupIndicator
-              selectedIndex={q.options.findIndex(
-                ({ value }) => value === answers[q.id]
-              )}
-              questionsTotal={q.options.length}
-            />
-          </div>
+          />
         ))}
       </div>
 
