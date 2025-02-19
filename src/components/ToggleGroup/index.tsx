@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ToggleGroupIndicator } from "./ToggleGroupIndicator";
+import { QuestionType } from "./types";
 
 export function ToggleGroup({ title, questions }: ToggleGroupProps) {
   const [answers, setAnswers] = useState<{ [key: string]: string }>({});
@@ -58,12 +59,5 @@ export function ToggleGroup({ title, questions }: ToggleGroupProps) {
 
 interface ToggleGroupProps {
   title: string;
-  questions: {
-    id: string;
-    correct: string;
-    options: {
-      value: string;
-      label: string;
-    }[];
-  }[];
+  questions: QuestionType[];
 }
