@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import useEvent from "@testing-library/user-event";
+import { useState } from "react";
 import { Toggle } from "../Toggle";
 import { ToggleItem } from "../ToggleItem";
 
@@ -24,6 +25,15 @@ describe("<Toggle />", () => {
     expect(notChecked).toBeChecked();
   });
 
+  test("works when state is manually controlled", async () => {
+    render(<ControlledMockToggle />);
+
+    const notChecked = screen.getByRole("radio", { checked: false });
+    await useEvent.click(notChecked);
+
+    expect(notChecked).toBeChecked();
+  });
+
   test("only one option can be checked at a time", async () => {
     render(<MockToggle />);
 
@@ -33,6 +43,21 @@ describe("<Toggle />", () => {
 
     expect(checked).not.toBeChecked();
     expect(notChecked).toBeChecked();
+  });
+
+  test("assigns a random name if one isn't provided", async () => {
+    render(
+      <Toggle defaultValue="hot">
+        {mockOptions.map((opt) => (
+          <ToggleItem label={opt.label} value={opt.value} key={opt.value} />
+        ))}
+      </Toggle>
+    );
+
+    const allToggles = screen.getAllByRole("radio");
+    for (const toggle of allToggles) {
+      expect(toggle).toHaveAttribute("name");
+    }
   });
 });
 
@@ -51,7 +76,19 @@ function MockToggle() {
   return (
     <Toggle defaultValue="hot">
       {mockOptions.map((opt) => (
-        <ToggleItem name="test-toggle" label={opt.label} value={opt.value} />
+        <ToggleItem label={opt.label} value={opt.value} key={opt.value} />
+      ))}
+    </Toggle>
+  );
+}
+
+function ControlledMockToggle() {
+  const [value, setValue] = useState("hot");
+
+  return (
+    <Toggle value={value} onChange={setValue}>
+      {mockOptions.map((opt) => (
+        <ToggleItem label={opt.label} value={opt.value} key={opt.value} />
       ))}
     </Toggle>
   );
