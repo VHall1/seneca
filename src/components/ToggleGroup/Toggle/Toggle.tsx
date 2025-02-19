@@ -6,6 +6,7 @@ import { QuestionType } from "../types";
 import { useToggleOverflowingContext } from "./context";
 import { ToggleIndicator } from "./ToggleIndicator";
 import { ToggleItem } from "./ToggleItem";
+import { useCorrectAnswers } from "../hooks/useCorrectAnswers";
 
 export function Toggle({ question, disabled, value, onChange }: ToggleProps) {
   const { isOverflowing, setIsOverflowing, options } =
@@ -14,8 +15,7 @@ export function Toggle({ question, disabled, value, onChange }: ToggleProps) {
 
   const { answers, questions } = useToggleGroupContext();
 
-  const correctAnswers = questions.filter((q) => answers[q.id] === q.correct);
-  const allCorrect = correctAnswers.length === Object.keys(answers).length;
+  const { correctAnswers, allCorrect } = useCorrectAnswers(questions, answers);
   const partialCorrect = !allCorrect && correctAnswers.length >= 1;
 
   useEffect(() => {

@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { lerpColour, shuffleArray } from "../../utils";
 import { COLOURS } from "./constants";
 import { ToggleGroupProvider } from "./context";
+import { useCorrectAnswers } from "./hooks/useCorrectAnswers";
 import { Toggle, ToggleOverflowingProvider } from "./Toggle";
 import { QuestionType } from "./types";
 
@@ -45,8 +46,7 @@ export function ToggleGroup({
     }));
   };
 
-  const correctAnswers = questions.filter((q) => answers[q.id] === q.correct);
-  const allCorrect = correctAnswers.length === questions.length;
+  const { correctAnswers, allCorrect } = useCorrectAnswers(questions, answers);
 
   const calculateBackground = () => {
     if (allCorrect)
