@@ -5,6 +5,7 @@ export function App() {
     <ToggleGroup title="An animal cell contains:" questions={mockQuestions} />
   );
 }
+
 // In a real-world scenario, these would be coming from an external API or something similar
 const mockQuestions = [
   {
@@ -32,6 +33,10 @@ const mockQuestions = [
       {
         value: "option2",
         label: "Option 2",
+      },
+      {
+        value: "option3",
+        label: "Option 3",
       },
     ],
   },
