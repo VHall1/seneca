@@ -1,6 +1,5 @@
 import { render, screen } from "@testing-library/react";
 import useEvent from "@testing-library/user-event";
-import { useState } from "react";
 import { Toggle } from "../Toggle";
 import { ToggleItem } from "../ToggleItem";
 
@@ -49,18 +48,10 @@ const mockOptions = [
 ];
 
 function MockToggle() {
-  const [value, setValue] = useState("hot");
-
   return (
-    <Toggle>
+    <Toggle defaultValue="hot">
       {mockOptions.map((opt) => (
-        <ToggleItem
-          name="test-toggle"
-          label={opt.label}
-          value={opt.value}
-          checked={value === opt.value}
-          onChange={setValue}
-        />
+        <ToggleItem name="test-toggle" label={opt.label} value={opt.value} />
       ))}
     </Toggle>
   );
