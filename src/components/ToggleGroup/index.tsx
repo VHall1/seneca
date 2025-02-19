@@ -9,33 +9,27 @@ import { QuestionType } from "./types";
 export function ToggleGroup({
   title,
   questions: rawQuestions,
-  shuffleQuestions,
-  shuffleAnswers,
 }: ToggleGroupProps) {
   // Handles the shuffling of questions.
   // If the parent component re-renders for any reason it will cause this useMemo to
   // kick in and might end up re-shuffling questions.
   // Ideally, these would come shuffled from the API, rather than shuffling on the client.
-  const questions = useMemo(() => {
-    if (shuffleQuestions) {
-      return shuffleArray(rawQuestions);
-    }
-
-    return rawQuestions;
-  }, [rawQuestions, shuffleQuestions]);
+  const questions = useMemo(
+    () =>
+      shuffleArray(
+        rawQuestions.map((q) => ({ ...q, options: shuffleArray(q.options) }))
+      ),
+    [rawQuestions]
+  );
 
   const [answers, setAnswers] = useState<{ [key: string]: string }>(() =>
     questions.reduce((accum, question) => {
-      if (shuffleAnswers) {
-        // avoid picking the correct answer when shuffling, otherwise
-        // might have cases where the correct answers are already selected
-        const first = shuffleArray(
-          question.options.filter((option) => option.value !== question.correct)
-        )[0];
-        return { ...accum, [question.id]: first.value };
-      }
-
-      return { ...accum, [question.id]: question.options[0].value };
+      // avoid picking the correct answer when shuffling, otherwise
+      // might have cases where the correct answers are already selected
+      const first = shuffleArray(
+        question.options.filter((option) => option.value !== question.correct)
+      )[0];
+      return { ...accum, [question.id]: first.value };
     }, {})
   );
 
@@ -102,6 +96,4 @@ export function ToggleGroup({
 interface ToggleGroupProps {
   title: string;
   questions: QuestionType[];
-  shuffleQuestions?: boolean;
-  shuffleAnswers?: boolean;
 }
