@@ -1,6 +1,5 @@
 import { createContext, useContext } from "react";
-
-type OptionsSet = Set<React.RefObject<HTMLLabelElement | null>>;
+import { OptionsSet } from "./types";
 
 interface ToggleContextValue {
   name: string;
