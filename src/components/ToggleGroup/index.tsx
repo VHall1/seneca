@@ -4,7 +4,20 @@ import { BG_GRADIENT } from "./constants";
 import { Toggle, ToggleOverflowingProvider } from "./Toggle";
 import { QuestionType } from "./types";
 
-export function ToggleGroup({ title, questions }: ToggleGroupProps) {
+export function ToggleGroup({
+  title,
+  questions: rawQuestions,
+  shuffleQuestions,
+}: ToggleGroupProps) {
+  const [questions] = useState(() => {
+    if (shuffleQuestions) {
+      // TODO: actually shuffle questions
+      return rawQuestions;
+    }
+
+    return rawQuestions;
+  });
+
   const [answers, setAnswers] = useState<{ [key: string]: string }>(() =>
     questions.reduce(
       (accum, q) => ({ ...accum, [q.id]: q.options[0].value }),
@@ -64,4 +77,6 @@ export function ToggleGroup({ title, questions }: ToggleGroupProps) {
 interface ToggleGroupProps {
   title: string;
   questions: QuestionType[];
+
+  shuffleQuestions?: boolean;
 }
