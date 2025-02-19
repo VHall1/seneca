@@ -1,4 +1,3 @@
-import { clsx } from "clsx";
 import { useState } from "react";
 
 export function QuestionGroup({ title, questions }: QuestionGroupProps) {
@@ -21,16 +20,11 @@ export function QuestionGroup({ title, questions }: QuestionGroupProps) {
         {questions.map((q) => (
           <div
             role="radiogroup"
-            className="max-w-[900px] w-full mx-auto flex outline-1"
+            className="max-w-[900px] w-full mx-auto flex outline-1 relative"
             key={q.id}
           >
             {q.options.map((option) => (
-              <label
-                className={clsx("flex-1 text-center", {
-                  "bg-white": answers[q.id] === option.value,
-                })}
-                key={option.value}
-              >
+              <label className="flex-1 text-center z-10" key={option.value}>
                 {option.label}
                 <input
                   name={q.id}
@@ -43,6 +37,19 @@ export function QuestionGroup({ title, questions }: QuestionGroupProps) {
                 />
               </label>
             ))}
+
+            <div
+              className="absolute bg-white transition-all"
+              style={{
+                top: 0,
+                height: "100%",
+                width: `${100 / q.options.length}%`,
+                left: `${
+                  q.options.findIndex(({ value }) => value === answers[q.id]) *
+                  (100 / q.options.length)
+                }%`,
+              }}
+            />
           </div>
         ))}
       </div>
