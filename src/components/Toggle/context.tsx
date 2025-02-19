@@ -3,6 +3,7 @@ import { createContext, useContext } from "react";
 type OptionsSet = Set<React.RefObject<HTMLLabelElement | null>>;
 
 interface ToggleContextValue {
+  name: string;
   value: string;
   onChange: (value: string) => void;
   disabled: boolean;
@@ -14,6 +15,7 @@ const ToggleContext = createContext<ToggleContextValue | undefined>(undefined);
 
 interface ToggleProvider {
   children: React.ReactNode;
+  name: ToggleContextValue["name"];
   value: ToggleContextValue["value"];
   onChange: ToggleContextValue["onChange"];
   disabled: ToggleContextValue["disabled"];

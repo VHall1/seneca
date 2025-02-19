@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { cn } from "../../utils";
 import { ToggleProvider } from "./context";
 import { OptionsSet } from "./types";
@@ -6,12 +6,15 @@ import { OptionsSet } from "./types";
 export function Toggle({
   children,
   className,
+  name,
   disabled,
   defaultValue,
   value: propValue,
   onChange: propOnChange,
   ...props
 }: ToggleProps) {
+  const generatedName = useId();
+
   const [internalValue, internalSetValue] = useState<string>(
     defaultValue ?? ""
   );
@@ -56,6 +59,7 @@ export function Toggle({
 
   return (
     <ToggleProvider
+      name={name ?? generatedName}
       disabled={disabled ?? false}
       value={value}
       onChange={onChange}
@@ -87,6 +91,7 @@ interface ToggleProps
     >,
     "onChange"
   > {
+  name?: string;
   disabled?: boolean;
   defaultValue?: string;
   value?: string;

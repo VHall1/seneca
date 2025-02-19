@@ -82,6 +82,7 @@ export function ToggleGroup({
       <div className="flex flex-col gap-6">
         {questions.map((q) => (
           <Toggle
+            name={q.id}
             value={answers[q.id]}
             onChange={(value) => handleOnChange(q.id, value)}
             disabled={allCorrect}
@@ -89,7 +90,6 @@ export function ToggleGroup({
           >
             {q.options.map((option) => (
               <ToggleItem
-                name={q.id}
                 label={option.label}
                 value={option.value}
                 key={option.value}

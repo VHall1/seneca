@@ -2,8 +2,9 @@ import { useEffect, useRef } from "react";
 import { cn } from "../../utils";
 import { useToggleContext } from "./context";
 
-export function ToggleItem({ name, label, value }: ToggleItemProps) {
+export function ToggleItem({ label, value }: ToggleItemProps) {
   const {
+    name,
     options,
     disabled,
     value: checkedValue,
@@ -47,7 +48,6 @@ export function ToggleItem({ name, label, value }: ToggleItemProps) {
 }
 
 interface ToggleItemProps {
-  name: string;
   label: string;
   value: string;
 }
