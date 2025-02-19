@@ -5,7 +5,7 @@ export function Toggle({ question, disabled, value, onChange }: ToggleProps) {
   return (
     <div
       role="radiogroup"
-      className="max-w-[900px] w-full mx-auto flex outline-1 rounded-full relative"
+      className="max-w-[900px] w-full mx-auto flex outline-2 -outline-offset-2 outline-white rounded-full relative"
     >
       {question.options.map((option) => (
         <label
