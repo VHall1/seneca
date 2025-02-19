@@ -2,7 +2,12 @@ import { useEffect, useRef } from "react";
 import { cn } from "../../utils";
 import { useToggleContext } from "./context";
 
-export function ToggleItem({ label, value }: ToggleItemProps) {
+export function ToggleItem({
+  children,
+  className,
+  value,
+  ...props
+}: ToggleItemProps) {
   const {
     name,
     options,
@@ -29,11 +34,13 @@ export function ToggleItem({ label, value }: ToggleItemProps) {
         {
           "text-[#9F938B]": checked,
           "cursor-pointer": !disabled,
-        }
+        },
+        className
       )}
       ref={ref}
+      {...props}
     >
-      {label}
+      {children}
       <input
         name={name}
         value={value}
@@ -47,7 +54,10 @@ export function ToggleItem({ label, value }: ToggleItemProps) {
   );
 }
 
-interface ToggleItemProps {
-  label: string;
+interface ToggleItemProps
+  extends React.DetailedHTMLProps<
+    React.HTMLAttributes<HTMLLabelElement>,
+    HTMLLabelElement
+  > {
   value: string;
 }
