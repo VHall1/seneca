@@ -1,8 +1,8 @@
-import { QuestionGroup } from "./components/QuestionGroup";
+import { ToggleGroup } from "./components/ToggleGroup";
 
 export function App() {
   return (
-    <QuestionGroup title="An animal cell contains:" questions={mockQuestions} />
+    <ToggleGroup title="An animal cell contains:" questions={mockQuestions} />
   );
 }
 // In a real-world scenario, these would be coming from an external API or something similar

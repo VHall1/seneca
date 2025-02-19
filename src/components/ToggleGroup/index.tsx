@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { QuestionGroupIndicator } from "./QuestionGroupIndicator";
+import { ToggleGroupIndicator } from "./ToggleGroupIndicator";
 
-export function QuestionGroup({ title, questions }: QuestionGroupProps) {
+export function ToggleGroup({ title, questions }: ToggleGroupProps) {
   const [answers, setAnswers] = useState<{ [key: string]: string }>({});
 
   const handleOnChange = (questionId: string, value: string) => {
@@ -39,7 +39,7 @@ export function QuestionGroup({ title, questions }: QuestionGroupProps) {
               </label>
             ))}
 
-            <QuestionGroupIndicator
+            <ToggleGroupIndicator
               selectedIndex={q.options.findIndex(
                 ({ value }) => value === answers[q.id]
               )}
@@ -56,7 +56,7 @@ export function QuestionGroup({ title, questions }: QuestionGroupProps) {
   );
 }
 
-interface QuestionGroupProps {
+interface ToggleGroupProps {
   title: string;
   questions: {
     id: string;

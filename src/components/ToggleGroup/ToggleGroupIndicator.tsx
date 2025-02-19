@@ -1,7 +1,7 @@
-export function QuestionGroupIndicator({
+export function ToggleGroupIndicator({
   selectedIndex,
   questionsTotal,
-}: QuestionGroupIndicatorProps) {
+}: ToggleGroupIndicatorProps) {
   if (selectedIndex === -1) {
     return null;
   }
@@ -21,7 +21,7 @@ export function QuestionGroupIndicator({
   );
 }
 
-interface QuestionGroupIndicatorProps {
+interface ToggleGroupIndicatorProps {
   selectedIndex: number;
   questionsTotal: number;
 }
