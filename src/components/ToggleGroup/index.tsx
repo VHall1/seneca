@@ -8,13 +8,23 @@ export function ToggleGroup({
   title,
   questions: rawQuestions,
   shuffleQuestions,
+  shuffleAnswers,
 }: ToggleGroupProps) {
   const [questions] = useState(() => {
+    let questions = [...rawQuestions];
+
     if (shuffleQuestions) {
-      return shuffleArray(rawQuestions);
+      questions = shuffleArray(rawQuestions);
     }
 
-    return rawQuestions;
+    if (shuffleAnswers) {
+      questions = questions.map((q) => ({
+        ...q,
+        options: shuffleArray(q.options),
+      }));
+    }
+
+    return questions;
   });
 
   const [answers, setAnswers] = useState<{ [key: string]: string }>(() =>
@@ -77,4 +87,5 @@ interface ToggleGroupProps {
   title: string;
   questions: QuestionType[];
   shuffleQuestions?: boolean;
+  shuffleAnswers?: boolean;
 }

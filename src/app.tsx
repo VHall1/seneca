@@ -6,6 +6,7 @@ export function App() {
       title="An animal cell contains:"
       questions={mockQuestions}
       shuffleQuestions
+      shuffleAnswers
     />
   );
 }
