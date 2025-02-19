@@ -1,22 +1,17 @@
 import { useEffect, useRef } from "react";
-import { cn } from "../../../utils";
+import { cn, lerpColour } from "../../../utils";
 import { COLOURS } from "../constants";
 import { useToggleGroupContext } from "../context";
+import { useCorrectAnswers } from "../hooks/useCorrectAnswers";
 import { QuestionType } from "../types";
 import { useToggleOverflowingContext } from "./context";
 import { ToggleIndicator } from "./ToggleIndicator";
 import { ToggleItem } from "./ToggleItem";
-import { useCorrectAnswers } from "../hooks/useCorrectAnswers";
 
 export function Toggle({ question, disabled, value, onChange }: ToggleProps) {
   const { isOverflowing, setIsOverflowing, options } =
     useToggleOverflowingContext();
   const windowSizeRef = useRef(-1);
-
-  const { answers, questions } = useToggleGroupContext();
-
-  const { correctAnswers, allCorrect } = useCorrectAnswers(questions, answers);
-  const partialCorrect = !allCorrect && correctAnswers.length >= 1;
 
   useEffect(() => {
     const checkOverflow = () => {
@@ -48,6 +43,19 @@ export function Toggle({ question, disabled, value, onChange }: ToggleProps) {
     return () => window.removeEventListener("resize", checkOverflow);
   }, []);
 
+  const { answers, questions } = useToggleGroupContext();
+  const { correctAnswers, allCorrect } = useCorrectAnswers(questions, answers);
+  const calculateIndicatorColour = () => {
+    if (allCorrect) return COLOURS.correct.indicator;
+
+    const percent = correctAnswers.length / questions.length;
+    return lerpColour(
+      COLOURS.incorrect.indicator,
+      COLOURS.partial.indicator,
+      percent
+    );
+  };
+
   return (
     <div
       role="radiogroup"
@@ -77,11 +85,7 @@ export function Toggle({ question, disabled, value, onChange }: ToggleProps) {
         questionsTotal={question.options.length}
         className="h-full flex flex-col lg:justify-center px-4 pt-4"
         style={{
-          backgroundColor: allCorrect
-            ? COLOURS.correct.indicator
-            : partialCorrect
-            ? COLOURS.partial.indicator
-            : COLOURS.incorrect.indicator,
+          backgroundColor: calculateIndicatorColour(),
         }}
       />
     </div>
