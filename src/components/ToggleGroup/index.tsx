@@ -3,7 +3,12 @@ import { Toggle, ToggleOverflowingProvider } from "./Toggle";
 import { QuestionType } from "./types";
 
 export function ToggleGroup({ title, questions }: ToggleGroupProps) {
-  const [answers, setAnswers] = useState<{ [key: string]: string }>({});
+  const [answers, setAnswers] = useState<{ [key: string]: string }>(() =>
+    questions.reduce(
+      (accum, q) => ({ ...accum, [q.id]: q.options[0].value }),
+      {}
+    )
+  );
 
   const handleOnChange = (questionId: string, value: string) => {
     setAnswers((answers) => ({
@@ -15,7 +20,7 @@ export function ToggleGroup({ title, questions }: ToggleGroupProps) {
   const allCorrect = questions.every((q) => answers[q.id] === q.correct);
 
   return (
-    <div className="flex flex-col px-4 pt-4 bg-red-400">
+    <div className="h-full flex flex-col px-4 pt-4 bg-red-400">
       <span className="text-white text-[20px]/[1.6] lg:text-[40px]/[1.4] font-bold text-center mb-8 lg:mb-10">
         {title}
       </span>
