@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { cn } from "../../utils/cn";
+import { BG_GRADIENT } from "./constants";
 import { Toggle, ToggleOverflowingProvider } from "./Toggle";
 import { QuestionType } from "./types";
 
@@ -17,10 +19,24 @@ export function ToggleGroup({ title, questions }: ToggleGroupProps) {
     }));
   };
 
-  const allCorrect = questions.every((q) => answers[q.id] === q.correct);
+  const correctAnswers = questions.filter((q) => answers[q.id] === q.correct);
+  const allCorrect = correctAnswers.length === Object.keys(answers).length;
+  const partialCorrect = !allCorrect && correctAnswers.length >= 1;
 
   return (
-    <div className="h-full flex flex-col lg:justify-center px-4 pt-4 bg-red-400">
+    <div
+      className={cn(
+        "h-full flex flex-col lg:justify-center px-4 pt-4 bg-linear-to-b",
+        {
+          [`from-[${BG_GRADIENT.incorrect[0]}] to-[${BG_GRADIENT.incorrect[1]}]`]:
+            true,
+          [`from-[${BG_GRADIENT.partial[0]}] to-[${BG_GRADIENT.partial[1]}]`]:
+            partialCorrect,
+          [`from-[${BG_GRADIENT.correct[0]}] to-[${BG_GRADIENT.correct[1]}]`]:
+            allCorrect,
+        }
+      )}
+    >
       <span className="text-white text-[20px]/[1.6] lg:text-[40px]/[1.4] font-bold text-center mb-8 lg:mb-10">
         {title}
       </span>
