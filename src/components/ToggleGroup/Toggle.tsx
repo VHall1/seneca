@@ -1,3 +1,4 @@
+import { clsx } from "clsx";
 import { ToggleGroupIndicator } from "./ToggleGroupIndicator";
 import { QuestionType } from "./types";
 
@@ -9,7 +10,13 @@ export function Toggle({ question, disabled, value, onChange }: ToggleProps) {
     >
       {question.options.map((option) => (
         <label
-          className="flex-1 text-center py-2.5 lg:py-5 z-10"
+          className={clsx(
+            "text-center text-[18px]/[1.6] lg:text-[24px]/[1.6] font-bold flex-1 py-2.5 lg:py-5 z-10",
+            {
+              "text-gray-500": value === option.value,
+              "text-white": value !== option.value,
+            }
+          )}
           key={option.value}
         >
           {option.label}
