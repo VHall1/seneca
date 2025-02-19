@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react";
+import useEvent from "@testing-library/user-event";
 import { useState } from "react";
 import { Toggle } from "../Toggle";
 import { ToggleItem } from "../ToggleItem";
@@ -13,6 +14,26 @@ describe("<Toggle />", () => {
         expect(input).toBeInTheDocument();
       })
     );
+  });
+
+  test("updates checked on click", async () => {
+    render(<MockToggle />);
+
+    const notChecked = screen.getByRole("radio", { checked: false });
+    await useEvent.click(notChecked);
+
+    expect(notChecked).toBeChecked();
+  });
+
+  test("only one option can be checked at a time", async () => {
+    render(<MockToggle />);
+
+    const checked = screen.getByRole("radio", { checked: true });
+    const notChecked = screen.getByRole("radio", { checked: false });
+    await useEvent.click(notChecked);
+
+    expect(checked).not.toBeChecked();
+    expect(notChecked).toBeChecked();
   });
 });
 
