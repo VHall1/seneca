@@ -1,7 +1,6 @@
 import { useMemo, useState } from "react";
 import { lerpColour, shuffleArray } from "../../utils";
 import { COLOURS } from "./constants";
-import { ToggleGroupProvider } from "./context";
 import { useCorrectAnswers } from "./hooks/useCorrectAnswers";
 import { Toggle } from "./Toggle";
 import { ToggleIndicator } from "./Toggle/ToggleIndicator";
@@ -72,53 +71,47 @@ export function ToggleGroup({
   };
 
   return (
-    <ToggleGroupProvider
-      answers={answers}
-      setAnswers={setAnswers}
-      questions={questions}
+    <div
+      style={{ background: calculateBackground() }}
+      className="h-full flex flex-col lg:justify-center px-4 pt-4 bg-linear-to-b"
     >
-      <div
-        style={{ background: calculateBackground() }}
-        className="h-full flex flex-col lg:justify-center px-4 pt-4 bg-linear-to-b"
-      >
-        <span className="text-white text-[20px]/[1.6] lg:text-[40px]/[1.4] font-bold text-center mb-8 lg:mb-10">
-          {title}
-        </span>
+      <span className="text-white text-[20px]/[1.6] lg:text-[40px]/[1.4] font-bold text-center mb-8 lg:mb-10">
+        {title}
+      </span>
 
-        <div className="flex flex-col gap-6">
-          {questions.map((q) => (
-            <Toggle key={q.id}>
-              {q.options.map((option) => (
-                <ToggleItem
-                  name={q.id}
-                  label={option.label}
-                  checked={answers[q.id] === option.value}
-                  disabled={allCorrect}
-                  value={option.value}
-                  onChange={(value) => handleOnChange(q.id, value)}
-                  key={option.value}
-                />
-              ))}
-
-              <ToggleIndicator
-                selectedIndex={q.options.findIndex(
-                  (option) => option.value === answers[q.id]
-                )}
-                questionsTotal={q.options.length}
-                className="h-full flex flex-col lg:justify-center px-4 pt-4"
-                style={{
-                  backgroundColor: calculateIndicatorColour(),
-                }}
+      <div className="flex flex-col gap-6">
+        {questions.map((q) => (
+          <Toggle key={q.id}>
+            {q.options.map((option) => (
+              <ToggleItem
+                name={q.id}
+                label={option.label}
+                checked={answers[q.id] === option.value}
+                disabled={allCorrect}
+                value={option.value}
+                onChange={(value) => handleOnChange(q.id, value)}
+                key={option.value}
               />
-            </Toggle>
-          ))}
-        </div>
+            ))}
 
-        <span className="text-white text-[16px]/[1.6] lg:text-[32px]/[1.4] font-bold text-center mt-8 lg:mt-13">
-          The answer is {allCorrect ? "correct!" : "incorrect"}
-        </span>
+            <ToggleIndicator
+              selectedIndex={q.options.findIndex(
+                (option) => option.value === answers[q.id]
+              )}
+              questionsTotal={q.options.length}
+              className="h-full flex flex-col lg:justify-center px-4 pt-4"
+              style={{
+                backgroundColor: calculateIndicatorColour(),
+              }}
+            />
+          </Toggle>
+        ))}
       </div>
-    </ToggleGroupProvider>
+
+      <span className="text-white text-[16px]/[1.6] lg:text-[32px]/[1.4] font-bold text-center mt-8 lg:mt-13">
+        The answer is {allCorrect ? "correct!" : "incorrect"}
+      </span>
+    </div>
   );
 }
 
