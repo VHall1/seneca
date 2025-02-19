@@ -71,7 +71,7 @@ export function ToggleGroup({
   return (
     <div
       style={{ background: calculateBackground() }}
-      className="h-full flex flex-col lg:justify-center px-4 pt-4 bg-linear-to-b"
+      className="h-full flex flex-col lg:justify-center px-4 pt-4"
     >
       <span className="text-white text-[20px]/[1.6] lg:text-[40px]/[1.4] font-bold text-center mb-8 lg:mb-10">
         {title}
