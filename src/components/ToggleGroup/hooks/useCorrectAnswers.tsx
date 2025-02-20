@@ -1,10 +1,12 @@
-import { QuestionType } from "../types";
+import { QuestionOptionType } from "../types";
 
 export function useCorrectAnswers(
-  questions: QuestionType[],
+  questionOptions: QuestionOptionType[],
   answers: { [key: string]: string }
 ) {
-  const correctAnswers = questions.filter((q) => answers[q.id] === q.correct);
-  const allCorrect = correctAnswers.length === questions.length;
+  const correctAnswers = questionOptions.filter(
+    (questionOption) => answers[questionOption.id] === questionOption.correct
+  );
+  const allCorrect = correctAnswers.length === questionOptions.length;
   return { correctAnswers, allCorrect };
 }

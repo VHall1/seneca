@@ -1,4 +1,4 @@
-export type QuestionType = {
+export type QuestionOptionType = {
   id: string;
   correct: string;
   options: {

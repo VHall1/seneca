@@ -5,7 +5,7 @@ export function ToggleIndicator({
   style,
   className,
   selectedIndex,
-  questionsTotal,
+  totalLength,
   ...props
 }: ToggleIndicatorProps) {
   const { isOverflowing } = useToggleContext();
@@ -14,7 +14,7 @@ export function ToggleIndicator({
     return null;
   }
 
-  const indicatorSize = 100 / questionsTotal;
+  const indicatorSize = 100 / totalLength;
   let overflowingStyle: React.CSSProperties = {};
   if (isOverflowing) {
     overflowingStyle = {
@@ -56,5 +56,5 @@ interface ToggleIndicatorProps
     "children"
   > {
   selectedIndex: number;
-  questionsTotal: number;
+  totalLength: number;
 }

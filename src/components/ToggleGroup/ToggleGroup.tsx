@@ -3,42 +3,57 @@ import { shuffleArray } from "../../utils";
 import { Toggle, ToggleIndicator, ToggleItem } from "../Toggle";
 import { useCalculateColours } from "./hooks/useCalculateColours";
 import { useCorrectAnswers } from "./hooks/useCorrectAnswers";
-import { QuestionType } from "./types";
+import { QuestionOptionType } from "./types";
 
 export function ToggleGroup({
   title,
-  questions: rawQuestions,
+  questionOptions: rawQuestionOptions,
 }: ToggleGroupProps) {
   // Ideally, these would come shuffled from the API, rather than shuffling on the client.
-  const questions = useMemo(
+  const questionOptions = useMemo(
     () =>
       shuffleArray(
-        rawQuestions.map((q) => ({ ...q, options: shuffleArray(q.options) }))
+        rawQuestionOptions.map((questionOption) => ({
+          ...questionOption,
+          options: shuffleArray(questionOption.options),
+        }))
       ),
-    [rawQuestions]
+    [rawQuestionOptions]
   );
 
   const [answers, setAnswers] = useState(() =>
-    questions.reduce<{ [key: string]: string }>((accum, question) => {
-      // Avoid picking the correct answer when shuffling, otherwise
-      // might have cases where the correct answers are already selected.
-      const first = shuffleArray(
-        question.options.filter((option) => option.value !== question.correct)
-      )[0];
-      return { ...accum, [question.id]: first.value };
-    }, {})
+    questionOptions.reduce<{ [key: string]: string }>(
+      (accum, questionOption) => {
+        // Avoid picking the correct answer when shuffling, otherwise
+        // might have cases where the correct answers are already selected.
+        const first = shuffleArray(
+          questionOption.options.filter(
+            (option) => option.value !== questionOption.correct
+          )
+        )[0];
+        return { ...accum, [questionOption.id]: first.value };
+      },
+      {}
+    )
   );
 
-  const handleOnChange = (questionId: string, value: string) => {
+  const handleOnChange = (questionOptionId: string, value: string) => {
     setAnswers((answers) => ({
       ...answers,
-      [questionId]: value,
+      [questionOptionId]: value,
     }));
   };
 
-  const { correctAnswers, allCorrect } = useCorrectAnswers(questions, answers);
+  const { correctAnswers, allCorrect } = useCorrectAnswers(
+    questionOptions,
+    answers
+  );
   const { backgroundGradient, indicatorColour, textColour } =
-    useCalculateColours(allCorrect, correctAnswers.length, questions.length);
+    useCalculateColours(
+      allCorrect,
+      correctAnswers.length,
+      questionOptions.length
+    );
 
   return (
     <div
@@ -50,20 +65,22 @@ export function ToggleGroup({
       </span>
 
       <div className="flex flex-col gap-6">
-        {questions.map((q) => (
+        {questionOptions.map((questionOption) => (
           <Toggle
-            name={q.id}
-            value={answers[q.id]}
-            onChange={(value) => handleOnChange(q.id, value)}
+            name={questionOption.id}
+            value={answers[questionOption.id]}
+            onChange={(value) => handleOnChange(questionOption.id, value)}
             disabled={allCorrect}
-            key={q.id}
+            key={questionOption.id}
           >
-            {q.options.map((option) => (
+            {questionOption.options.map((option) => (
               <ToggleItem
                 value={option.value}
                 style={{
                   color:
-                    answers[q.id] === option.value ? textColour : undefined,
+                    answers[questionOption.id] === option.value
+                      ? textColour
+                      : undefined,
                 }}
                 key={option.value}
               >
@@ -72,10 +89,10 @@ export function ToggleGroup({
             ))}
 
             <ToggleIndicator
-              selectedIndex={q.options.findIndex(
-                (option) => option.value === answers[q.id]
+              selectedIndex={questionOption.options.findIndex(
+                (option) => option.value === answers[questionOption.id]
               )}
-              questionsTotal={q.options.length}
+              totalLength={questionOption.options.length}
               className="h-full flex flex-col lg:justify-center px-4 pt-4"
               style={{
                 backgroundColor: indicatorColour,
@@ -94,5 +111,5 @@ export function ToggleGroup({
 
 interface ToggleGroupProps {
   title: string;
-  questions: QuestionType[];
+  questionOptions: QuestionOptionType[];
 }

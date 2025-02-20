@@ -2,12 +2,15 @@ import { ToggleGroup } from "./components/ToggleGroup";
 
 export function App() {
   return (
-    <ToggleGroup title="An animal cell contains:" questions={mockQuestions} />
+    <ToggleGroup
+      title="An animal cell contains:"
+      questionOptions={mockQuestionOptions}
+    />
   );
 }
 
-// In a real-world scenario, these would be coming from an external API or something similar
-const mockQuestions = [
+// In a real-world scenario, this would be coming from an external API or something similar
+const mockQuestionOptions = [
   {
     id: "73b5f49f9002a82a",
     correct: "hot",

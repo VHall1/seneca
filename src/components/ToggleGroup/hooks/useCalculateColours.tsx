@@ -8,10 +8,10 @@ import { COLOURS } from "../constants";
 export function useCalculateColours(
   allCorrect: boolean,
   correctAnswers: number,
-  questions: number
+  questionsOptionsLength: number
 ) {
   const memoised = useMemo(() => {
-    const percent = correctAnswers / questions;
+    const percent = correctAnswers / questionsOptionsLength;
 
     const calculateBackground = () => {
       if (allCorrect)
@@ -49,7 +49,7 @@ export function useCalculateColours(
       indicatorColour: calculateIndicatorColour(),
       textColour: calculateTextColour(),
     };
-  }, [allCorrect, correctAnswers, questions]);
+  }, [allCorrect, correctAnswers, questionsOptionsLength]);
 
   return memoised;
 }

@@ -15,13 +15,13 @@ describe("<ToggleGroup />", () => {
   test("locks once all correct options have been selected", async () => {
     render(<MockToggleGroup />);
 
-    for (const question of mockQuestions) {
-      const correct = question.options.find(
-        (o) => o.value === question.correct
+    for (const questionOption of mockQuestionOptions) {
+      const correct = questionOption.options.find(
+        (o) => o.value === questionOption.correct
       );
       if (!correct) {
         throw new Error(
-          `The correct value for question ${question.id} is not listed as an option`
+          `The correct value for question option ${questionOption.id} is not listed as an option`
         );
       }
 
@@ -36,7 +36,7 @@ describe("<ToggleGroup />", () => {
   });
 });
 
-const mockQuestions = [
+const mockQuestionOptions = [
   {
     id: "73b5f49f9002a82a",
     correct: "hot",
@@ -87,6 +87,9 @@ const mockQuestions = [
 
 function MockToggleGroup() {
   return (
-    <ToggleGroup title="An animal cell contains:" questions={mockQuestions} />
+    <ToggleGroup
+      title="An animal cell contains:"
+      questionOptions={mockQuestionOptions}
+    />
   );
 }
