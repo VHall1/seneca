@@ -4,11 +4,11 @@
 
 - **Changing background colour**: I wasn't entirely sure how this was meant to be calculated. The video and the figma seemed to show different
 background transitions, so I settled in the middle for now. I took the colours from the figma design and used a lerp function to pick a background
-colour in proportion to the number of correct answers unless all correct options are selected, which has a fixed background colour. All the colours
-used are stored in a `constants.ts` file, so it should be relatively straightforward to change if needed.
+colour in proportion to the number of correct answers unless all correct options are selected,  in which case a fixed background colour is used.
+All the colours used are stored in a `constants.ts` file, so it should be relatively straightforward to change if needed.
 
 - **Horizontal/Vertical toggles**: It wasn't obvious from the design spec when each version should be used, so currently, it observes each toggle
-in case the text overflows, which then switches it into vertical mode.
+and switches to vertical mode if the text overflows.
 
 ## Limitations
 
