@@ -9,9 +9,6 @@ export function ToggleGroup({
   title,
   questions: rawQuestions,
 }: ToggleGroupProps) {
-  // Handles the shuffling of questions.
-  // If the parent component re-renders for any reason it will cause this useMemo to
-  // kick in and might end up re-shuffling questions.
   // Ideally, these would come shuffled from the API, rather than shuffling on the client.
   const questions = useMemo(
     () =>
@@ -21,10 +18,10 @@ export function ToggleGroup({
     [rawQuestions]
   );
 
-  const [answers, setAnswers] = useState<{ [key: string]: string }>(() =>
-    questions.reduce((accum, question) => {
-      // avoid picking the correct answer when shuffling, otherwise
-      // might have cases where the correct answers are already selected
+  const [answers, setAnswers] = useState(() =>
+    questions.reduce<{ [key: string]: string }>((accum, question) => {
+      // Avoid picking the correct answer when shuffling, otherwise
+      // might have cases where the correct answers are already selected.
       const first = shuffleArray(
         question.options.filter((option) => option.value !== question.correct)
       )[0];
@@ -40,14 +37,13 @@ export function ToggleGroup({
   };
 
   const { correctAnswers, allCorrect } = useCorrectAnswers(questions, answers);
-
   const { backgroundGradient, indicatorColour, textColour } =
     useCalculateColours(allCorrect, correctAnswers.length, questions.length);
 
   return (
     <div
-      style={{ background: backgroundGradient }}
       className="h-full flex flex-col lg:justify-center px-4 pt-4"
+      style={{ background: backgroundGradient }}
     >
       <span className="text-white text-[20px]/[1.6] lg:text-[40px]/[1.4] font-bold text-center mb-8 lg:mb-10">
         {title}
@@ -65,11 +61,11 @@ export function ToggleGroup({
             {q.options.map((option) => (
               <ToggleItem
                 value={option.value}
-                key={option.value}
                 style={{
                   color:
                     answers[q.id] === option.value ? textColour : undefined,
                 }}
+                key={option.value}
               >
                 {option.label}
               </ToggleItem>
