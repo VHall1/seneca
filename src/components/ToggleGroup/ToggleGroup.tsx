@@ -9,7 +9,6 @@ export function ToggleGroup({
   title,
   questionOptions: rawQuestionOptions,
 }: ToggleGroupProps) {
-  // Ideally, these would come shuffled from the API, rather than shuffling on the client.
   const questionOptions = useMemo(
     () =>
       shuffleArray(
