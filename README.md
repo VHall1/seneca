@@ -28,6 +28,10 @@ All the colours used are stored in a `constants.ts` file, so it should be relati
 - **Horizontal/Vertical toggles**: It wasn't obvious from the design spec when each version should be used, so currently, it observes each toggle
 and switches to vertical mode if the text overflows.
 
+- **Question switching**: One of the extension tasks also asked to add an easy way for users to switch between active questions. Since that wasn't a part
+of the original design I took the liberty to add two buttons to the bottom of the screen to switch between questions. This also means the `ToggleGroup` component
+takes more than one question, while also storing the answer for all of the questions so progress is not lost when switching between questions.
+
 ## Limitations
 
 - **Extra re-renders**: For the sake of simplicity, all the "answers" state is stored in the top-level component `ToggleGroup`, which causes
