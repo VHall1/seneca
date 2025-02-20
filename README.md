@@ -1,4 +1,4 @@
-# Senece Frontend Task
+# Seneca Frontend Task
 
 ## Requirements
 
