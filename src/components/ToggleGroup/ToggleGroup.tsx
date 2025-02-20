@@ -57,20 +57,20 @@ export function ToggleGroup({ questions: rawQuestions }: ToggleGroupProps) {
       answers={allAnswers[activeQuestion.id]}
       onChange={handleOnChange}
     >
-      <div className="flex">
+      <div className="flex gap-4">
         <Button
           onClick={() =>
             setActiveQuestionIndex(getPrev(questions, activeQuestionIndex))
           }
         >
-          prev q
+          Previous Question
         </Button>
         <Button
           onClick={() =>
             setActiveQuestionIndex(getNext(questions, activeQuestionIndex))
           }
         >
-          next q
+          Next Question
         </Button>
       </div>
     </ToggleGroupItem>

@@ -35,6 +35,20 @@ describe("<ToggleGroup />", () => {
       expect(toggle).toBeDisabled();
     }
   });
+
+  test("can switch between active question", async () => {
+    render(<MockToggleGroup />);
+
+    const next = screen.getByText(/next question/i);
+    await userEvent.click(next);
+
+    expect(
+      screen.queryByText("An animal cell contains:")
+    ).not.toBeInTheDocument();
+    expect(
+      screen.getByText("Which of the following is a prime number?")
+    ).toBeInTheDocument();
+  });
 });
 
 const mockQuestions = [
@@ -85,6 +99,30 @@ const mockQuestions = [
           {
             value: "impermeable",
             label: "Impermeable membrane",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: "m2n3o4p5q6r7s8t9",
+    title: "Which of the following is a prime number?",
+    questionOptions: [
+      {
+        id: "n3o4p5q6r7s8t9u0",
+        correct: "17",
+        options: [
+          {
+            value: "16",
+            label: "16",
+          },
+          {
+            value: "17",
+            label: "17",
+          },
+          {
+            value: "18",
+            label: "18",
           },
         ],
       },
