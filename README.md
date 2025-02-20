@@ -11,6 +11,7 @@
 /
 ├── src/
 │   ├── components/ (where individual components are stored - ToggleGroup handles questions, and Toggle handles the individual option toggles)
+│   │   ├── Button/
 │   │   ├── Toggle/
 │   │   └── ToggleGroup/
 │   ├── utils/  (helper functions - e.g. className merge, colour lerping, array shuffling, etc...)
