@@ -27,3 +27,11 @@ export const lerpColour = (color1: string, color2: string, amount: number) => {
     c1[1] + (c2[1] - c1[1]) * amount
   )}, ${Math.round(c1[2] + (c2[2] - c1[2]) * amount)})`;
 };
+
+export function getPrev<T>(arr: Array<T>, index: number) {
+  return (index - 1 + arr.length) % arr.length;
+}
+
+export function getNext<T>(arr: Array<T>, index: number) {
+  return (index + 1) % arr.length;
+}
