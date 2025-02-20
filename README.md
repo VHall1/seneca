@@ -1,5 +1,23 @@
 # Senece Frontend Task
 
+## Requirements
+
+- Node.js: v20 or later
+  - [Download](https://nodejs.org/en/download/)
+
+## Project Structure
+
+```
+/
+├── src/
+│   ├── components/ (where individual components are stored - ToggleGroup handles questions, and Toggle handles the individual option toggles)
+│   │   ├── Toggle/
+│   │   └── ToggleGroup/
+│   ├── utils/  (helper functions - e.g. className merge, colour lerping, array shuffling, etc...)
+│   └── app.tsx (app entry point)
+└── package.json
+```
+
 ## Assumptions
 
 - **Changing background colour**: I wasn't entirely sure how this was meant to be calculated. The video and the figma seemed to show different
